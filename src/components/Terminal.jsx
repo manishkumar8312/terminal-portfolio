@@ -13,6 +13,7 @@ const Terminal = () => {
   const [currentInput, setCurrentInput] = useState('')
   const [commandHistory, setCommandHistory] = useState([])
   const [historyIndex, setHistoryIndex] = useState(-1)
+  const [isSearching, setIsSearching] = useState(false)
   const terminalRef = useRef(null)
 
   useEffect(() => {
@@ -21,13 +22,21 @@ const Terminal = () => {
     }
   }, [history])
 
-  const handleCommand = (command) => {
+  const handleCommand = async (command) => {
     if (command.trim()) {
       const newHistory = [...commandHistory, command]
       setCommandHistory(newHistory)
       setHistoryIndex(-1)
       
+      // Add searching indicator
+      setIsSearching(true)
+      
+      // Simulate async command execution with delay
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
       const result = executeCommand(command)
+      setIsSearching(false)
+      
       if (result.includes('CLEAR_SCREEN')) {
         setHistory([
           { type: 'output', content: 'Terminal cleared. Type "help" for available commands.' },
@@ -97,13 +106,15 @@ const Terminal = () => {
         <div className="terminal-title">terminal@portfolio:~</div>
       </div>
       <div className="terminal-body" ref={terminalRef}>
-        <Output history={history} />
-        <Input
-          value={currentInput}
-          onChange={setCurrentInput}
-          onSubmit={handleCommand}
-          onKeyDown={handleKeyDown}
-        />
+        <Output history={history} isSearching={isSearching} />
+        {!isSearching && (
+          <Input
+            value={currentInput}
+            onChange={setCurrentInput}
+            onSubmit={handleCommand}
+            onKeyDown={handleKeyDown}
+          />
+        )}
       </div>
     </div>
   )
