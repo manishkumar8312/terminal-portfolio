@@ -1,0 +1,213 @@
+.terminal {
+  width: 90%;
+  max-width: 1200px;
+  height: 80vh;
+  background: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 255, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #333;
+}
+
+.terminal-header {
+  background: #2a2a2a;
+  border-bottom: 1px solid #333;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px 8px 0 0;
+}
+
+.terminal-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+.button.close:hover {
+  background: #ff3333;
+  box-shadow: 0 0 8px rgba(255, 95, 86, 0.5);
+}
+
+.button.minimize:hover {
+  background: #ff9933;
+  box-shadow: 0 0 8px rgba(255, 189, 46, 0.5);
+}
+
+.button.maximize:hover {
+  background: #00cc33;
+  box-shadow: 0 0 8px rgba(39, 201, 63, 0.5);
+}
+
+.button.close {
+  background: #ff5f56;
+}
+
+.button.minimize {
+  background: #ffbd2e;
+}
+
+.button.maximize {
+  background: #27c93f;
+}
+
+.terminal-title {
+  color: #888;
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+}
+
+.terminal-body {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  background: #000;
+  border-radius: 0 0 8px 8px;
+}
+
+.terminal-output {
+  margin-bottom: 10px;
+}
+
+.terminal-line {
+  margin-bottom: 5px;
+  word-break: break-word;
+}
+
+.terminal-line.input {
+  display: flex;
+  align-items: center;
+}
+
+.terminal-line.output {
+  color: #00ff00;
+}
+
+.prompt {
+  color: #00ff00;
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.command {
+  color: #ffffff;
+}
+
+.output-text {
+  color: #00ff00;
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.input-form {
+  flex: 1;
+  display: flex;
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+.terminal-input::selection {
+  background: #00ff00;
+  color: #000;
+}
+
+.terminal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.terminal-line {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.highlight {
+  color: #ffff00;
+  font-weight: bold;
+}
+
+.error {
+  color: #ff4444;
+}
+
+.success {
+  color: #44ff44;
+}
+
+.info {
+  color: #4444ff;
+}
+
+.terminal.minimized {
+  height: 60px;
+  overflow: hidden;
+}
+
+.terminal.minimized .terminal-body {
+  display: none;
+}
+
+.terminal.maximized {
+  width: 95%;
+  height: 95vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+.terminal.maximized .terminal-body {
+  height: calc(95vh - 50px);
+}
