@@ -1,6 +1,7 @@
 import { profile } from '../data/profile.js'
 import { skills } from '../data/skills.js'
 import { projects } from '../data/projects.js'
+import { learnContent } from '../data/learn.js'
 
 export const executeCommand = (command) => {
   const trimmedCommand = command.trim().toLowerCase()
@@ -18,6 +19,7 @@ export const executeCommand = (command) => {
         '  experience - Display work experience',
         '  education - Show educational background',
         '  contact  - Display contact information',
+        '  learn    - Learn DevOps with me',
         '  clear    - Clear the terminal screen',
         '  echo     - Display a message',
         '  date     - Show current date and time',
@@ -126,6 +128,33 @@ export const executeCommand = (command) => {
 
     case 'pwd':
       return ['/home/user/portfolio']
+
+    case 'learn':
+      return [
+        learnContent.title,
+        '',
+        learnContent.description,
+        '',
+        'Learning Path:',
+        '',
+        ...learnContent.learningPath.map(stage => [
+          `${stage.stage}:`,
+          ...stage.topics.map(topic => `  • ${topic}`),
+          ''
+        ]).flat(),
+        'Repositories:',
+        '',
+        ...learnContent.repositories.map(repo => [
+          `${repo.name}:`,
+          `  ${repo.url}`,
+          `  ${repo.description}`,
+          ''
+        ]).flat(),
+        `Current Focus: ${learnContent.currentFocus}`,
+        '',
+        'Upcoming Topics:',
+        ...learnContent.upcomingTopics.map(topic => `  • ${topic}`)
+      ]
 
     default:
       return [`Command not found: ${mainCommand}. Type 'help' for available commands.`]
