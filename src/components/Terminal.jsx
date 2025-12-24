@@ -3,7 +3,7 @@ import Input from './Input'
 import Output from './Output'
 import { executeCommand } from '../commands/commands'
 
-const Terminal = () => {
+const Terminal = ({ theme, setTheme }) => {
   const [history, setHistory] = useState([
     { type: 'output', content: 'Welcome to Terminal Portfolio v1.0.0' },
     { type: 'output', content: 'Type "help" for available commands' },
@@ -34,7 +34,7 @@ const Terminal = () => {
       // Simulate async command execution with delay
       await new Promise(resolve => setTimeout(resolve, 500))
       
-      const result = executeCommand(command)
+      const result = executeCommand(command, setTheme)
       setIsSearching(false)
       
       if (result.includes('CLEAR_SCREEN')) {

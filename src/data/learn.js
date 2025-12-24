@@ -1,62 +1,70 @@
 export const learnContent = {
-  title: "Learn DevOps with Me",
-  description:
-    "This section documents my DevOps learning journey through hands-on practice, notes, and small experiments. The goal is to build strong fundamentals and learn in public.",
-  
-  repositories: [
-    {
+  title: "DevOps Learning Journey",
+  tagline: "Building strong DevOps fundamentals through hands-on practice",
+
+  overview:
+    "This section represents my structured DevOps learning journey. I focus on understanding core concepts deeply by practicing commands, building small experiments, and documenting everything I learn.",
+
+  resources: {
+    primaryRepo: {
       name: "DevOps Learning Repository",
       url: "https://github.com/manishkumar8312/DevOps-Repository",
       description:
-        "A growing collection of DevOps notes, commands, examples, and practice material covering core DevOps concepts"
+        "Central repository containing DevOps notes, Linux commands, Docker practice, CI/CD basics, and learning experiments."
     }
-  ],
+  },
 
-  learningPath: [
+  roadmap: [
     {
-      stage: "Foundations",
-      topics: [
-        "Linux basics and command line usage",
-        "Basic networking concepts",
-        "Git and GitHub workflows",
-        "Understanding how applications run on servers"
+      phase: "Phase 1: Foundations",
+      status: "Completed / Ongoing",
+      focus: [
+        "Linux command line fundamentals",
+        "Networking basics (IP, DNS, ports)",
+        "Git & GitHub workflows",
+        "How applications run on servers"
       ]
     },
     {
-      stage: "Containers",
-      topics: [
-        "Docker fundamentals",
-        "Images and containers",
+      phase: "Phase 2: Containers",
+      status: "Current Focus",
+      focus: [
+        "Docker core concepts",
+        "Images vs containers",
         "Dockerfile basics",
-        "Running applications using Docker"
+        "Running and managing containers"
       ]
     },
     {
-      stage: "CI/CD Basics",
-      topics: [
-        "What CI/CD pipelines are",
-        "Basic pipeline concepts",
-        "Automating build and test steps",
+      phase: "Phase 3: CI/CD",
+      status: "Planned",
+      focus: [
+        "CI/CD pipeline concepts",
+        "Automating build & test",
         "Understanding deployment workflows"
       ]
     },
     {
-      stage: "Cloud Fundamentals",
-      topics: [
-        "Introduction to cloud computing",
-        "Basic AWS concepts",
-        "Compute, storage, and networking overview"
+      phase: "Phase 4: Cloud Basics",
+      status: "Planned",
+      focus: [
+        "Cloud computing fundamentals",
+        "AWS core services overview",
+        "Compute, storage, networking basics"
       ]
     }
   ],
 
-  currentFocus:
-    "Currently focusing on strengthening Docker fundamentals and understanding CI/CD concepts",
+  currentlyLearning:
+    "Strengthening Docker fundamentals and understanding how CI/CD pipelines work internally",
 
-  upcomingTopics: [
-    "Kubernetes basics",
-    "Infrastructure as Code concepts",
-    "Monitoring fundamentals",
-    "Cloud deployment practices"
-  ]
+  nextGoals: [
+    "Kubernetes fundamentals",
+    "Infrastructure as Code (IaC)",
+    "Monitoring and logging basics",
+    "Cloud-based deployments"
+  ],
+
+  philosophy:
+    "Learn by building, document what matters, and grow in public."
 };

@@ -2,17 +2,17 @@
   width: 90%;
   max-width: 1200px;
   height: 80vh;
-  background: #1a1a1a;
+  background: var(--terminal-bg);
   border-radius: 8px;
   box-shadow: 0 20px 60px rgba(0, 255, 0, 0.1);
   display: flex;
   flex-direction: column;
-  border: 1px solid #333;
+  border: 1px solid var(--border);
 }
 
 .terminal-header {
-  background: #2a2a2a;
-  border-bottom: 1px solid #333;
+  background: var(--terminal-header);
+  border-bottom: 1px solid var(--border);
   padding: 10px 15px;
   display: flex;
   align-items: center;
@@ -66,7 +66,7 @@
 }
 
 .terminal-title {
-  color: #888;
+  color: var(--text-dim);
   font-size: 14px;
   font-family: 'Courier New', monospace;
 }
@@ -78,7 +78,7 @@
   font-family: 'Courier New', monospace;
   font-size: 14px;
   line-height: 1.6;
-  background: #000;
+  background: var(--bg-tertiary);
   border-radius: 0 0 8px 8px;
 }
 
@@ -97,21 +97,21 @@
 }
 
 .terminal-line.output {
-  color: #00ff00;
+  color: var(--text-primary);
 }
 
 .prompt {
-  color: #00ff00;
+  color: var(--text-primary);
   margin-right: 8px;
   font-weight: bold;
 }
 
 .command {
-  color: #ffffff;
+  color: var(--text-secondary);
 }
 
 .output-text {
-  color: #00ff00;
+  color: var(--text-primary);
   margin: 0;
   white-space: pre-wrap;
   font-family: inherit;
@@ -133,7 +133,7 @@
   flex: 1;
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: var(--text-secondary);
   font-family: 'Courier New', monospace;
   font-size: 14px;
   outline: none;
@@ -142,8 +142,8 @@
 }
 
 .terminal-input::selection {
-  background: #00ff00;
-  color: #000;
+  background: var(--accent);
+  color: var(--bg-tertiary);
 }
 
 .terminal-body::-webkit-scrollbar {
@@ -151,16 +151,16 @@
 }
 
 .terminal-body::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: var(--scrollbar-track);
 }
 
 .terminal-body::-webkit-scrollbar-thumb {
-  background: #333;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 .terminal-body::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--scrollbar-thumb-hover);
 }
 
 @keyframes fadeIn {

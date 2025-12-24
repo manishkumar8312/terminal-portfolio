@@ -4,10 +4,42 @@
   box-sizing: border-box;
 }
 
+body[data-theme="dark"] {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #000000;
+  --text-primary: #00ff00;
+  --text-secondary: #ffffff;
+  --text-dim: #888;
+  --accent: #00ff00;
+  --border: #333;
+  --terminal-bg: #1a1a1a;
+  --terminal-header: #2a2a2a;
+  --scrollbar-track: #1a1a1a;
+  --scrollbar-thumb: #333;
+  --scrollbar-thumb-hover: #555;
+}
+
+body[data-theme="light"] {
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #fafafa;
+  --text-primary: #006600;
+  --text-secondary: #333333;
+  --text-dim: #666666;
+  --accent: #006600;
+  --border: #ddd;
+  --terminal-bg: #ffffff;
+  --terminal-header: #f0f0f0;
+  --scrollbar-track: #f0f0f0;
+  --scrollbar-thumb: #ccc;
+  --scrollbar-thumb-hover: #999;
+}
+
 body {
   font-family: 'Courier New', monospace;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-  color: #00ff00;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  color: var(--text-primary);
   height: 100vh;
   overflow: hidden;
 }
@@ -17,13 +49,467 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at center, #0f0f0f 0%, #000000 100%);
+  background: radial-gradient(circle at center, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+  position: relative;
+  overflow: hidden;
 }
 
+/* Screen transition animations */
+.screen-transition-enter {
+  opacity: 0;
+  transform: scale(0.95) translateY(20px);
+}
+
+.screen-transition-enter-active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.screen-transition-exit {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.screen-transition-exit-active {
+  opacity: 0;
+  transform: scale(1.05) translateY(-20px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ubuntu Simple Login Styles */
+.ubuntu-login-simple {
+  font-family: 'Ubuntu', sans-serif;
+  background: linear-gradient(135deg, #2c001e 0%, #6b0f4a 25%, #8b2c5b 50%, #a03c6b 75%, #b0467a 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.ubuntu-login-simple .login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  padding: 2rem;
+}
+
+.ubuntu-login-simple .login-panel {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+}
+
+.ubuntu-login-simple .login-panel.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ubuntu-login-simple .avatar-container {
+  margin-bottom: 2rem;
+}
+
+.ubuntu-login-simple .user-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b35 0%, #ffa500 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+}
+
+.ubuntu-login-simple .avatar-initials {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ubuntu-login-simple .username-display {
+  margin-bottom: 2rem;
+}
+
+.ubuntu-login-simple .username-text {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #ffffff;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.ubuntu-login-simple .login-hint {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Ubuntu Mono', monospace;
+  margin-bottom: 2rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.ubuntu-login-simple .login-button-simple {
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa500 100%);
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-family: 'Ubuntu', sans-serif;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ubuntu-login-simple .login-button-simple::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.ubuntu-login-simple .login-button-simple:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.5);
+  background: linear-gradient(135deg, #ff8c42 0%, #ffa500 50%, #ffb347 100%);
+}
+
+.ubuntu-login-simple .login-button-simple:hover::before {
+  left: 100%;
+}
+
+.ubuntu-login-simple .login-button-simple:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(255, 107, 53, 0.4);
+}
+
+.ubuntu-login-simple .login-button-simple:focus,
+.ubuntu-login-simple .login-button-simple:focus-visible {
+  outline: 2px solid #ffa500;
+  outline-offset: 3px;
+}
+
+/* Simple Login Responsive Design */
+@media (max-width: 480px) {
+  .ubuntu-login-simple .login-panel {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+  
+  .ubuntu-login-simple .user-avatar {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .ubuntu-login-simple .avatar-initials {
+    font-size: 1.8rem;
+  }
+  
+  .ubuntu-login-simple .username-text {
+    font-size: 1.2rem;
+  }
+  
+  .ubuntu-login-simple .login-hint {
+    font-size: 0.8rem;
+  }
+  
+  .ubuntu-login-simple .login-button-simple {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Ubuntu Boot Styles */
+.ubuntu-boot {
+  font-family: 'Ubuntu', sans-serif;
+  background: linear-gradient(135deg, #2c001e 0%, #6b0f4a 25%, #8b2c5b 50%, #a03c6b 75%, #b0467a 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.ubuntu-boot .container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.ubuntu-boot .login-screen {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.ubuntu-boot .content {
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ubuntu-boot .content.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ubuntu-boot .ubuntu-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.ubuntu-boot .user-info {
+  margin-bottom: 2rem;
+}
+
+.ubuntu-boot .developer-name {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ubuntu-boot .roles {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: #e0e0e0;
+  font-family: 'Ubuntu Mono', monospace;
+  opacity: 0.9;
+  letter-spacing: 0.5px;
+}
+
+/* Ubuntu Boot Container Styles */
+.ubuntu-boot .boot-container {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.ubuntu-boot .boot-text {
+  color: #00ff00;
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 14px;
+  text-align: left;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  min-height: 120px;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+.ubuntu-boot .boot-progress {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 165, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.ubuntu-boot .boot-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6b35, #ffa500);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
+}
+
+.ubuntu-boot .boot-percentage {
+  color: #ffa500;
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(255, 165, 0, 0.5);
+}
+
+.ubuntu-boot .terminal-btn {
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa500 100%);
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-family: 'Ubuntu', sans-serif;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1rem;
+}
+
+.ubuntu-boot .terminal-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.ubuntu-boot .terminal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.5);
+  background: linear-gradient(135deg, #ff8c42 0%, #ffa500 50%, #ffb347 100%);
+}
+
+.ubuntu-boot .terminal-btn:hover::before {
+  left: 100%;
+}
+
+.ubuntu-boot .terminal-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(255, 107, 53, 0.4);
+}
+
+.ubuntu-boot .btn-text {
+  position: relative;
+  z-index: 1;
+}
+
+.ubuntu-boot .footer {
+  padding: 2rem;
+  text-align: center;
+}
+
+.ubuntu-boot .keyboard-hint {
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 0.9rem;
+  color: #b0b0b0;
+  opacity: 0.7;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Ubuntu Responsive Design */
+@media (max-width: 768px) {
+  .ubuntu-boot .ubuntu-title {
+    font-size: 2.5rem;
+  }
+  
+  .ubuntu-boot .developer-name {
+    font-size: 1.5rem;
+  }
+  
+  .ubuntu-boot .roles {
+    font-size: 0.9rem;
+  }
+  
+  .ubuntu-boot .terminal-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+  
+  .ubuntu-boot .content {
+    padding: 1rem;
+  }
+  
+  .ubuntu-boot .boot-container {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ubuntu-boot .ubuntu-title {
+    font-size: 2rem;
+  }
+  
+  .ubuntu-boot .developer-name {
+    font-size: 1.2rem;
+  }
+  
+  .ubuntu-boot .roles {
+    font-size: 0.8rem;
+  }
+  
+  .ubuntu-boot .terminal-btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .ubuntu-boot .boot-text {
+    font-size: 12px;
+  }
+}
+
+/* Ubuntu Focus styles */
+.ubuntu-boot .terminal-btn:focus,
+.ubuntu-boot .terminal-btn:focus-visible {
+  outline: 2px solid #ffa500;
+  outline-offset: 3px;
+}
+
+/* Legacy boot screen styles (kept for compatibility) */
 .boot-screen {
   width: 100%;
   height: 100%;
-  background: #000000;
+  background: var(--bg-tertiary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,7 +523,7 @@ body {
 }
 
 .boot-text {
-  color: #00ff00;
+  color: var(--text-primary);
   font-family: 'Courier New', monospace;
   font-size: 14px;
   text-align: left;
@@ -49,8 +535,8 @@ body {
 .boot-progress {
   width: 100%;
   height: 20px;
-  background: #111;
-  border: 1px solid #00ff00;
+  background: var(--bg-secondary);
+  border: 1px solid var(--accent);
   border-radius: 3px;
   overflow: hidden;
   margin-bottom: 10px;
@@ -58,13 +544,13 @@ body {
 
 .boot-progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #00ff00, #00cc00);
+  background: linear-gradient(90deg, var(--accent), var(--text-primary));
   transition: width 0.3s ease;
   box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
 }
 
 .boot-percentage {
-  color: #00ff00;
+  color: var(--text-primary);
   font-family: 'Courier New', monospace;
   font-size: 16px;
   font-weight: bold;
