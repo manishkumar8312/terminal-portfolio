@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import Input from './Input'
 import Output from './Output'
-import { executeCommand } from '../commands/commands'
+import Window from './Window'
+import { AboutWindow, ProjectsWindow, ResumeWindow } from './AppWindows'
+import CommandRegistry from '../commands/CommandRegistry'
+import { registerSystemCommands } from '../commands/systemCommands'
 
-const Terminal = ({ theme, setTheme }) => {
+const Terminal = ({ theme, setTheme, onReboot }) => {
   const [history, setHistory] = useState([
-    { type: 'output', content: 'Welcome to Terminal Portfolio v1.0.0' },
+    { type: 'output', content: 'Welcome to Terminal Portfolio v2.0.0 - Ubuntu Style' },
     { type: 'output', content: 'Type "help" for available commands' },
     { type: 'output', content: '' }
   ])
@@ -14,7 +17,78 @@ const Terminal = ({ theme, setTheme }) => {
   const [commandHistory, setCommandHistory] = useState([])
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [isSearching, setIsSearching] = useState(false)
+  const [windows, setWindows] = useState([])
+  const [activeWindowId, setActiveWindowId] = useState(null)
   const terminalRef = useRef(null)
+  
+  const commandRegistry = useRef(new CommandRegistry())
+  
+  // Function to parse command with proper handling of quoted strings
+  const parseCommand = (command) => {
+    const args = []
+    let current = ''
+    let inQuotes = false
+    let quoteChar = ''
+    
+    for (let i = 0; i < command.length; i++) {
+      const char = command[i]
+      const nextChar = command[i + 1]
+      
+      // Handle multi-character operators
+      if (!inQuotes && char === '>' && nextChar === '>') {
+        if (current) {
+          args.push(current)
+          current = ''
+        }
+        args.push('>>')
+        i++ // Skip the next character
+      } else if (!inQuotes && char === '>') {
+        if (current) {
+          args.push(current)
+          current = ''
+        }
+        args.push('>')
+      } else if ((char === '"' || char === "'") && !inQuotes) {
+        inQuotes = true
+        quoteChar = char
+      } else if (char === quoteChar && inQuotes) {
+        inQuotes = false
+        quoteChar = ''
+      } else if (char === ' ' && !inQuotes) {
+        if (current) {
+          args.push(current)
+          current = ''
+        }
+      } else {
+        current += char
+      }
+    }
+    
+    if (current) {
+      args.push(current)
+    }
+    
+    return args
+  }
+  
+  useEffect(() => {
+    const context = {
+      openWindow: (windowType) => {
+        const windowId = `${windowType}-${Date.now()}`
+        const newWindow = {
+          id: windowId,
+          type: windowType,
+          title: windowType.charAt(0).toUpperCase() + windowType.slice(1),
+          isFocused: true
+        }
+        setWindows(prev => [...prev.filter(w => !w.isFocused), newWindow])
+        setActiveWindowId(windowId)
+      },
+      onReboot: onReboot,
+      setTheme: setTheme
+    }
+    registerSystemCommands(commandRegistry.current, context)
+  }, [onReboot, setTheme])
 
   useEffect(() => {
     if (terminalRef.current) {
@@ -28,13 +102,25 @@ const Terminal = ({ theme, setTheme }) => {
       setCommandHistory(newHistory)
       setHistoryIndex(-1)
       
-      // Add searching indicator
       setIsSearching(true)
+      await new Promise(resolve => setTimeout(resolve, 300))
       
-      // Simulate async command execution with delay
-      await new Promise(resolve => setTimeout(resolve, 500))
+      const args = parseCommand(command.trim())
+      const result = commandRegistry.current.execute(args[0], args.slice(1), {
+        openWindow: (windowType) => {
+          const windowId = `${windowType}-${Date.now()}`
+          const newWindow = {
+            id: windowId,
+            type: windowType,
+            title: windowType.charAt(0).toUpperCase() + windowType.slice(1),
+            isFocused: true
+          }
+          setWindows(prev => [...prev.filter(w => !w.isFocused), newWindow])
+          setActiveWindowId(windowId)
+        },
+        onReboot: onReboot
+      })
       
-      const result = executeCommand(command, setTheme)
       setIsSearching(false)
       
       if (result.includes('CLEAR_SCREEN')) {
@@ -76,11 +162,45 @@ const Terminal = ({ theme, setTheme }) => {
   }
 
   const handleClose = () => {
-    // Clear terminal and show goodbye message
     setHistory([
       { type: 'output', content: 'Terminal closed. Goodbye!' },
       { type: 'output', content: '' }
     ])
+  }
+
+  const handleWindowClose = (windowId) => {
+    setWindows(prev => prev.filter(w => w.id !== windowId))
+    if (activeWindowId === windowId) {
+      setActiveWindowId(null)
+    }
+  }
+
+  const handleWindowFocus = (windowId) => {
+    setActiveWindowId(windowId)
+    setWindows(prev => prev.map(w => ({
+      ...w,
+      isFocused: w.id === windowId
+    })))
+  }
+
+  const handleWindowMinimize = (windowId) => {
+    setWindows(prev => prev.map(w => 
+      w.id === windowId ? { ...w, isMinimized: true } : w
+    ))
+    if (activeWindowId === windowId) {
+      setActiveWindowId(null)
+    }
+  }
+
+  const handleWindowRestore = (windowId) => {
+    setWindows(prev => prev.map(w => 
+      w.id === windowId ? { ...w, isMinimized: false } : w
+    ))
+    setActiveWindowId(windowId)
+  }
+
+  const getCurrentPath = () => {
+    return commandRegistry.current.getCurrentPath()
   }
 
   const handleMinimize = () => {
@@ -103,7 +223,7 @@ const Terminal = ({ theme, setTheme }) => {
           <div className="button minimize" onClick={handleMinimize}></div>
           <div className="button maximize" onClick={handleMaximize}></div>
         </div>
-        <div className="terminal-title">terminal@portfolio:~</div>
+        <div className="terminal-title">manish@portfolio:~$</div>
       </div>
       <div className="terminal-body" ref={terminalRef}>
         <Output history={history} isSearching={isSearching} />
@@ -113,9 +233,26 @@ const Terminal = ({ theme, setTheme }) => {
             onChange={setCurrentInput}
             onSubmit={handleCommand}
             onKeyDown={handleKeyDown}
+            currentPath={getCurrentPath()}
           />
         )}
       </div>
+      {windows.filter(window => !window.isMinimized).map(window => (
+        <Window
+          key={window.id}
+          id={window.id}
+          title={window.title}
+          onClose={handleWindowClose}
+          onMinimize={handleWindowMinimize}
+          onFocus={handleWindowFocus}
+          isFocused={window.isFocused}
+          isMinimized={window.isMinimized}
+        >
+          {window.type === 'about' && <AboutWindow />}
+          {window.type === 'projects' && <ProjectsWindow />}
+          {window.type === 'resume' && <ResumeWindow />}
+        </Window>
+      ))}
     </div>
   )
 }

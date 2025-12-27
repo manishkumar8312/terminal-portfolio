@@ -6,7 +6,7 @@ const Boot = ({ onBootComplete }) => {
   const [showContent, setShowContent] = useState(false)
 
   const bootMessages = [
-    '[Ubuntu 24.04 LTS] Initializing system...',
+    '[Terminal Portfolio] Initializing system...',
     '[Kernel] Loading kernel modules...',
     '[Network] Starting network services...',
     '[FS] Mounting file systems...',
@@ -50,7 +50,7 @@ const Boot = ({ onBootComplete }) => {
       <div className="container">
         <main className="login-screen">
           <div className={`content ${showContent ? 'fade-in' : ''}`}>
-            <h1 className="ubuntu-title">Ubuntu 24.04 LTS</h1>
+            <h1 className="ubuntu-title">Terminal Portfolio</h1>
             <div className="user-info">
               <h2 className="developer-name">Manish Kumar Sah</h2>
               <p className="roles">DevOps • Competitive Programming • Systems Engineering</p>

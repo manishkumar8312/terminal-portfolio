@@ -34,5 +34,18 @@ export const projects = [
       "Command-line portfolio interface",
       "Responsive terminal design"
     ]
+  },
+  {
+    name: "Algorithm Visualizer",
+    description: "Algorithm Visualizer is a web-based interactive tool that helps users understand how algorithms work through real-time animations. It includes visualizations for sorting, searching, graph traversal, pathfinding, and recursion-based problems.",
+    technologies: ["React", "JavaScript", "CSS"],
+    github: "https://github.com/manishkumar8312/AlgorithmVizualizer",
+    status: "Completed",
+    highlights: [
+      "Real-time algorithm animations",
+      "Visualizations for sorting, searching, graph traversal, pathfinding, and recursion",
+      "Effective learning resource for developers"
+    ]
   }
+
 ]
